@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react"
+// import {db} from "./firebase-config"
+// import {collection, getDocs} from "firebase/firestore"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+  const [isloading, setloading] = useState(true)
+  const [pelanggan, setPelanggan] = useState([])
+
+  useEffect(()=>{
+    fetchPelanggan()
+  },[])
+
+  const hitung = ()=>{
+    let sewa = "2024-05-20 14:31"
+    let kembali = "2024-05-23 17:50"
+
+    
+  }
+
+  const fetchPelanggan = async () => {
+    fetch('https://firestore.googleapis.com/v1/projects/beenjasa-d237c/databases/(default)/documents/transaksi')
+    .then((res) => {
+        return res.json();
+    })
+    .then((data) => {
+        console.log(data)
+        const value = data.documents.map((doc)=>{
+          for (var key in doc.fields) {
+            if (doc.fields.hasOwnProperty(key)) {
+              doc.fields[key] = Object.values(doc.fields[key])[0];
+            }
+          }
+          return doc.fields
+        })
+        console.log(value)
+        setPelanggan(value)
+        setloading(false)
+    });
+  }
+
+  if(isloading){
+    return (
+      <div className="w-full h-screen grid place-items-center">
+        <h1 className="font-bold text-3xl">Loading</h1>
+      </div>
+    )
+  } else{
+    return (
+      <>
+        <h1 className="text-3xl font-bold underline">
+          yes
+        </h1>
+      </>
+    )
+  }
 }
 
-export default App;
