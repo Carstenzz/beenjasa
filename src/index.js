@@ -44,7 +44,7 @@ const router = createBrowserRouter(
       <Route path='/detail-transaksi'>
         <Route path=':dtl'>
           <Route index element={<DetailTransaksi/>}/>
-          <Route path='edit' element={<DetailTransaksi/>}/>
+          <Route path=':action' element={<DetailTransaksi/>}/>
         </Route>
       </Route>
     </Route>
@@ -56,9 +56,9 @@ root.render(
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>
-  <React.StrictMode>
+  // <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

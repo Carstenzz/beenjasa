@@ -27,14 +27,6 @@ export default function TambahKompresor() {
         }).then(()=>{
             console.log("uploaded")
         })
-    // const snapshot = await get(dbref)
-    // if(snapshot.exists()){
-    //     console.log(Object.values(snapshot.val()))
-    //     setKompresor(Object.values(snapshot.val()))
-    //     setloading(false)
-    // } else {
-    //     console.log("error")
-    // }
     }
 
     const changeJenis = (e)=>{

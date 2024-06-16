@@ -21,14 +21,12 @@ export default function DetailPelanggan() {
 
   useEffect(()=>{
       fetchTransaksi()
+      fetchPelanggan()
     },[])
-
-
-
+    
     useEffect(()=>{
-        fetchPelanggan()
-        fetchKompresor()
-    },[transaksi])
+      fetchKompresor()
+    },[transaksi, pelanggan])
   
   const fetchPelanggan = async () => {
     const db = getDatabase(app)
@@ -55,41 +53,9 @@ export default function DetailPelanggan() {
                     // console.log(plg)
                 }
             })
-        
     } else {
         console.log("error")
     }
-    // .then((data)=>{return Object.values(data.val())})
-    // .then((data)=>{
-    //     data.forEach((plg)=>{
-    //         console.log(plg.nama.replace(/\s+/g, '-').toLowerCase())
-    //         console.log(param)
-    //         if(plg.nama.replace(/\s+/g, '-').toLowerCase() === param){
-    //             // setSelectedType("pelanggan");
-    //             setPelanggan(plg);
-    //             console.log(plg)
-    //         }
-    //         // setPelanggan(plg)
-    //     })
-    //     // setloading(false)
-    // })
-    // if(snapshot.exists()){
-    //     const temp = Object.values(snapshot.val())
-    //     console.log(temp)
-    //     temp.forEach((plg)=>{
-    //         console.log(plg.nama.replace(/\s+/g, '-').toLowerCase())
-    //         console.log(param)
-    //         // if(plg.nama.replace(/\s+/g, '-').toLowerCase() === param){
-    //         //     // setSelectedType("pelanggan");
-    //         //     // setPelanggan(plg);
-    //         //     console.log(plg)
-    //         // }
-    //         setPelanggan(plg)
-    //     })
-    //     console.log(pelanggan)
-    // } else {
-    //     console.log("error")
-    // }
   }
 
   const fetchKompresor = async () => {
@@ -101,8 +67,8 @@ export default function DetailPelanggan() {
             Object.values(snapshot.val()).forEach((kom)=>{
                 transaksi.forEach(e=>{
                     // console.log(e.nama + " " + pelanggan.nama)
-                    // console.log(e.jenis + " " + kom.jenis)
-                    if(e.nama == pelanggan.nama && e.jenis == kom.jenis){
+                    console.log(e.jenis + " " + kom.jenis)
+                    if(e.nik == pelanggan.nik && e.jenis == kom.jenis){
                         // console.log(kom)
                         setTemp((prev)=>[...prev, kom])
                     }
@@ -171,6 +137,8 @@ export default function DetailPelanggan() {
         // }
     }  
 
+    
+
 
 
   if(isloading){
@@ -183,44 +151,112 @@ export default function DetailPelanggan() {
     // console.log(temp)  
     return (
       <>
-        <div>
-            <div>
-                <h1>detail Pelanggan</h1>
-                <p>nama : {pelanggan.nama}</p>
-                <p>nomor hp : {pelanggan.no_hp}</p>
-                <p>alamat : {pelanggan.alamat}</p>
-                <p>nik : {pelanggan.nik}</p>
-                <p>link_ktp : {pelanggan.link_ktp}</p>
-            </div>
-            <div>
-                <h1>Riwayat transaksi</h1>
-                <div className="flex flex-wrap gap-4">
-                    {transaksi.map((tran,index)=>{
-                        if(tran.nama == pelanggan.nama){
-                            return (
-                            <div key={tran.jenis} className="border-2 border-gray-400 m-2 p-2">
-                                <Link to={"/detail-kompresor/" + tran.jenis}>{tran.jenis}</Link>
-                                <p>penyewa : {tran.nama}</p>
-                                <p>tanggal sewa : {tran.tgl_sewa}</p>
-                                <p>rencana sewa : {tran.rencana}</p>
-                                <p>sudah Kembali : {tran.kembali? "ya" : "tidak"}</p>
-                                <Link to={"/detail-transaksi/" + transaksiKeys[index]}>selengkapnya</Link>
-                            </div>
-                            )
-                        }
-                    })}
+        <div className="mx-20">
+            <h1 className="text-2xl font-bold mt-16 text-center pb-4">Detail Pelanggan</h1>
+            <div className="mt-4 font-semibold flex justify-center gap-20">
+                <table>
+                    <tr>
+                        <td>Nama </td>
+                        <td> : </td>
+                        <td> {pelanggan.nama}</td>
+                    </tr>
+                    <tr>
+                        <td className="pr-2">Nomor HP </td>
+                        <td className="pr-2"> : </td>
+                        <td> {pelanggan.no_hp}</td>
+                    </tr>
+                    <tr>
+                        <td>Alamat </td>
+                        <td> : </td>
+                        <td> {pelanggan.alamat}</td>
+                    </tr>
+                    <tr>
+                        <td>NIK </td>
+                        <td> : </td>
+                        <td> {pelanggan.nik}</td>
+                    </tr>
+                </table>
+                <div className="flex flex-col items-center justify-between">
+                    <p>foto ktp</p>
+                    <img src={pelanggan.ktp} className="h-40 border-2"/>
                 </div>
             </div>
-            <div>
-                <h1>Kompresor yang pernah atau sedang disewa</h1>
+            <div className="flex flex-col items-center justify-between text-xl font-semibold mt-10">
+                <p className="mb-2">
+                Status blacklist : {pelanggan.blacklist? <span className="text-orange-600">Pelanggan Diblacklist</span> : <span className="text-green-600">Pelanggan Tidak Diblacklist</span>}
+                </p>
+                <button className="bg-yellow-500 text-white p-2 px-4 rounded-xl" onClick={()=>{blacklist()}}>Ubah status blacklist</button>
+            </div>
+            <div className="mt-16">
+                    <h1 className="text-2xl font-bold mt-16 text-center pb-4">Riwayat transaksi</h1>
+                    <div className="flex gap-4 flex-wrap justify-center">
+                        {transaksi.map((tran, index)=>{
+                            if(tran.nik == pelanggan.nik){
+                                return(
+                                <div key={tran.kompresor} className="border-2 border-gray-400 m-2 p-2 pb-6 min-w-96 flex flex-col justify-center items-center ">
+                                <div className="flex justify-between font-bold text-xl w-full mb-4">
+                                    <p><Link to={"/detail-pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></p>
+                                    <p><Link to={"/detail-kompresor/" + tran.jenis}> {tran.jenis}</Link></p>
+                                </div>
+                                <table className="mb-6">
+                                    <tr>
+                                    <td>nama penyewa</td>
+                                    <td className="pr-2"> : </td>
+                                    <td > <Link to={"/detail-pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></td>
+                                    </tr>
+                                    <tr>
+                                    <td>no_hp</td>
+                                    <td>:</td>
+                                    <td>{tran.no_hp}</td>
+                                    </tr>
+                                    <tr>
+                                    <td>alamat</td>
+                                    <td>:</td>
+                                    <td>{tran.alamat}</td>
+                                    </tr>
+                                    <tr>
+                                    <td>kompresor</td>
+                                    <td>:</td>
+                                    <td>{tran.jenis}</td>
+                                    </tr>
+                                    <tr>
+                                    <td>tanggal_sewa</td>
+                                    <td>:</td>
+                                    <td>{tran.tanggal_sewa}</td>
+                                    </tr>
+                                    <tr>
+                                    <td className="pr-2">rencana lama sewa</td>
+                                    <td>:</td>
+                                    <td>{tran.lama_sewa} hari</td>
+                                    </tr>
+                                </table>
+                                <div className="w-fit m-auto">
+                                    <Link to={"/detail-transaksi/" + transaksiKeys[index]} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">selengkapnya</Link>
+                                </div>
+                                </div>
+                                )
+                            }
+                        })}
+                    </div>
+                </div>
+            <h1 className="text-2xl font-bold mt-16 text-center pb-4">Kompresor yang pernah atau sedang disewa</h1>
+            <div className="flex flex-wrap gap-4 justify-center mb-20">
                 {temp.map((kom)=>{
-                    return(
-                    <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis}>{kom.jenis}</Link>
-                    )
+                    if(kom.servis && kom.kembali) 
+                        return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
+                })}
+                {kompresor.map((kom)=>{
+                    if(!kom.servis && kom.kembali) 
+                        return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis} className="bg-amber-500 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
+                })}
+                {kompresor.map((kom)=>{
+                    if(!kom.kembali) 
+                        return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis} className="bg-red-500 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
                 })}
             </div>
-            <button onClick={()=>{blacklist()}}>{pelanggan.blacklist? "unblacklist" : "blacklist"}</button>
-        </div>
+            <br></br>
+            <br></br>
+          </div>
       </>
     )
 } else {

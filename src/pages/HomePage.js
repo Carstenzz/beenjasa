@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import app from '../firebase.js'
-import { getDatabase, ref, get } from "firebase/database"
+import { getDatabase, ref, get, update } from "firebase/database"
 // import {db} from "./firebase-config"
 // import {collection, getDocs} from "firebase/firestore"
 
 export default function HomePage() {
   const [isloading, setloading] = useState(true)
+  const [isfetching, setfetching] = useState(false)
   const [kompresor, setKompresor] = useState([])
   const [transaksi, setTransaksi] = useState([])
   const [transaksiKeys, setTransaksiKeys] = useState([])
@@ -17,9 +18,19 @@ export default function HomePage() {
     // console.log(kompresor)
 
   useEffect(()=>{
-    fetchKompresor()
-    fetchTransaksi()
+    setInterval(() => {
+      if(!isfetching){
+        fetchKompresor()
+        fetchTransaksi()
+      }
+    }, 1500);
   },[])
+
+  const openInNewTab = (url) => {
+    console.log("test")
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
+  }
 
   function compareByName(a, b) {
     return a.jenis.localeCompare(b.jenis);
@@ -43,28 +54,53 @@ export default function HomePage() {
   }
 
   const fetchTransaksi = async () => {
+    setfetching(true)
     const db = getDatabase(app)
     const dbref = ref(db, "Transaksi")
     const snapshot = await get(dbref)
     if(snapshot.exists()){
-        console.log((snapshot.val()))
-        console.log(Object.values(snapshot.val()))
         setTransaksiKeys(Object.keys(snapshot.val()))
         setTransaksi(Object.values(snapshot.val()))
-        setloading(false)
-        Object.values(snapshot.val()).forEach((e)=>{
-          if (!e['nota_sewa']){
+        Object.values(snapshot.val()).forEach((e, index)=>{
+          if (!e['nota_sewa'] && !e['kembali']){
             setNotaSewa(false)
+            openInNewTab("/detail-transaksi/" + Object.keys(snapshot.val())[index] + "/print")
+            sewa(Object.keys(snapshot.val())[index])
           }
-          console.log(e['jenis'] + " " + (!e['nota_pembayaran'] && e['kembali']) + " " + e['kembali'])
           if (!e['nota_pembayaran'] && e['kembali']){
             setNotaPembayaran(false)
+            openInNewTab("/detail-transaksi/" + Object.keys(snapshot.val())[index] + "/print")
+            pembayaran(Object.keys(snapshot.val())[index])
           }
         })
-    } else {
+        setloading(false)
+        setfetching(false)
+      } else {
         console.log("error")
     }
   }
+
+  
+  const sewa = async (key) => {
+    const db = getDatabase(app)
+    update(ref(db, "Transaksi/" + key),{
+        nota_sewa : true,
+    })
+    // console.log(transaksiKeys)
+    // fetchPelanggan()
+    // forceRender((prev)=>!prev)
+  }  
+
+  const pembayaran = async (key) => {
+    const db = getDatabase(app)
+    update(ref(db, "Transaksi/" + key),{
+        nota_pembayaran : true,
+    })
+    // console.log(transaksiKeys)
+    // fetchPelanggan()
+    // forceRender((prev)=>!prev)
+  }  
+
 
   if(isloading){
     return (
@@ -73,185 +109,87 @@ export default function HomePage() {
       </div>
     )
   } else{
-    console.log(kompresor)
     return (
-      <>{(!notaPembayaran || !notaSewa) &&
-          <div> 
-            <h1>Nota yang perlu di print</h1>
-            <div>
-            {!notaSewa &&
-              <div>
-                <h1>Nota sewa</h1>
-                <div className="flex gap-4 flex-wrap">
-                  {transaksi.map((tran, index)=>{
-                      if(!tran['nota_sewa']){
-                          return (
-                            <div key={tran.kompresor} className="border-2 border-gray-400 m-2 p-2"> 
-                              <table>
-                                <tr>
-                                  <td>nama penyewa</td>
-                                  <td> : </td>
-                                  <td> <Link to={"/detail-pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></td>
-                                </tr>
-                                <tr>
-                                  <td>no_hp</td>
-                                  <td>:</td>
-                                  <td>{tran.no_hp}</td>
-                                </tr>
-                                <tr>
-                                  <td>alamat</td>
-                                  <td>:</td>
-                                  <td>{tran.alamat}</td>
-                                </tr>
-                                <tr>
-                                  <td>kompresor</td>
-                                  <td>:</td>
-                                  <td>{tran.jenis}</td>
-                                </tr>
-                                <tr>
-                                  <td>tanggal_sewa</td>
-                                  <td>:</td>
-                                  <td>{tran.tanggal_sewa}</td>
-                                </tr>
-                                <tr>
-                                  <td>rencana lama sewa</td>
-                                  <td>:</td>
-                                  <td>{tran.lama_sewa} hari</td>
-                                </tr>
-                              </table>
-                              <Link to={"/detail-transaksi/" + transaksiKeys[index]}>print nota</Link>
-                          </div>
-                          )
-                        }
-                    })}
-                </div>  
-              </div>
-            }
-            {!notaPembayaran &&
-              <div>
-                <h1>Nota Pembayaran</h1>
-                <div className="flex gap-4 flex-wrap">
-                  {transaksi.map((tran, index)=>{
-                      if(!tran['nota_pembayaran'] && tran['kembali']){
-                          return (
-                          <div key={tran.kompresor} className="border-2 border-gray-400 m-2 p-2"> 
-                              <table>
-                                <tr>
-                                  <td>nama penyewa</td>
-                                  <td> : </td>
-                                  <td> <Link to={"/detail-pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></td>
-                                </tr>
-                                <tr>
-                                  <td>no_hp</td>
-                                  <td>:</td>
-                                  <td>{tran.no_hp}</td>
-                                </tr>
-                                <tr>
-                                  <td>alamat</td>
-                                  <td>:</td>
-                                  <td>{tran.alamat}</td>
-                                </tr>
-                                <tr>
-                                  <td>kompresor</td>
-                                  <td>:</td>
-                                  <td>{tran.jenis}</td>
-                                </tr>
-                                <tr>
-                                  <td>tanggal_sewa</td>
-                                  <td>:</td>
-                                  <td>{tran.tanggal_sewa}</td>
-                                </tr>
-                                <tr>
-                                  <td>tanggal_kembali</td>
-                                  <td>:</td>
-                                  <td>{tran.tanggal_kembali}</td>
-                                </tr>
-                                <tr>
-                                  <td>total_harga</td>
-                                  <td>:</td>
-                                  <td>{tran.total_harga}</td>
-                                </tr>
-                              </table>
-                              <Link to={"/detail-transaksi/" + transaksiKeys[index]}>print nota</Link>
-                          </div>
-                          )
-                        }
-                    })}
-                </div>  
-              </div>
-            }
-            </div>
-          </div>
-        }
-        <div>
-          <h1>Kompresor yang bisa disewa</h1>
-          {sewaKompresor &&
-            <div>
-              <div>
-                  <h1>Kompresor sudah diservis</h1>
-                  <div className="flex gap-4 flex-wrap">
+      <>
+        <div className="bg-sky-100 mx-20 p-4 rounded-xl">
+          <h1 className="text-2xl font-bold text-center mb-4">STATUS KOMPRESOR</h1>
+          <div className="flex justify-around">
+            <div className=" border-2 border-green-600 bg-white rounded-xl p-4 w-1/4 min-h-52">
+              <h1 className="text-xl font-bold text-center text-green-600 mb-4">Kompresor siap disewa</h1>
+              <div className="flex flex-wrap gap-4">
                   {kompresor.map((kom)=>{
-                      if(kom.servis) 
-                          return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis}>{kom.jenis}</Link>
+                      if(kom.servis && kom.kembali) 
+                          return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
                   })}
-                  </div>
               </div>
-              <div>
-                  <h1>Kompresor belum diservis</h1>
-                  <div className="flex gap-4 flex-wrap">
+            </div>
+            <div className=" border-2 border-amber-600 bg-white rounded-xl p-4 w-1/4 min-h-52">
+              <h1 className="text-xl font-bold text-center text-amber-500 mb-4">Kompresor belum disevis</h1>
+              <div className="flex flex-wrap gap-4">
                   {kompresor.map((kom)=>{
                       if(!kom.servis && kom.kembali) 
-                          return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis}>{kom.jenis}</Link>
+                          return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis} className="bg-amber-500 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
                   })}
-                  </div>
               </div>
             </div>
-          }
-          {!sewaKompresor &&
-            <h1>Tidak ada kompresor yang bisa disewa</h1>
-          }
+            <div className=" border-2 border-red-500 bg-white rounded-xl p-4 w-1/4 min-h-52">
+              <h1 className="text-xl font-bold text-center text-red-500 mb-4">Kompresor sedang disewa</h1>
+              <div className="flex flex-wrap gap-4">
+                  {kompresor.map((kom)=>{
+                      if(!kom.kembali) 
+                          return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis} className="bg-red-500 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
+                  })}
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div>
-            <h1>Kompresor yang keluar</h1>
-            <div className="flex gap-4">
+        <div className="px-20 pb-16">
+            <h1 className="text-2xl font-bold mt-16 text-center">Transaksi yang sedang berlangsung</h1>
+            <div className="flex gap-4 flex-wrap justify-center">
             {transaksi.map((tran, index)=>{
                 if(!tran.kembali){
                     return (
-                    <div key={tran.kompresor} className="border-2 border-gray-400 m-2 p-2">
-                    <table>
-                                <tr>
-                                  <td>nama penyewa</td>
-                                  <td> : </td>
-                                  <td> <Link to={"/detail-pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></td>
-                                </tr>
-                                <tr>
-                                  <td>no_hp</td>
-                                  <td>:</td>
-                                  <td>{tran.no_hp}</td>
-                                </tr>
-                                <tr>
-                                  <td>alamat</td>
-                                  <td>:</td>
-                                  <td>{tran.alamat}</td>
-                                </tr>
-                                <tr>
-                                  <td>kompresor</td>
-                                  <td>:</td>
-                                  <td>{tran.jenis}</td>
-                                </tr>
-                                <tr>
-                                  <td>tanggal_sewa</td>
-                                  <td>:</td>
-                                  <td>{tran.tanggal_sewa}</td>
-                                </tr>
-                                <tr>
-                                  <td>rencana lama sewa</td>
-                                  <td>:</td>
-                                  <td>{tran.lama_sewa} hari</td>
-                                </tr>
-                              </table>
-                              <Link to={"/detail-transaksi/" + transaksiKeys[index]}>selengkapnya</Link>
+                    <div key={tran.kompresor} className="border-2 border-gray-400 m-2 p-2 pb-6 min-w-96 flex flex-col justify-center items-center ">
+                      <div className="flex justify-between font-bold text-xl w-full mb-4">
+                        <p><Link to={"/detail-pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></p>
+                        <p><Link to={"/detail-kompresor/" + tran.jenis}> {tran.jenis}</Link></p>
+                      </div>
+                      <table className="mb-6">
+                        <tr>
+                          <td>nama penyewa</td>
+                          <td className="pr-2"> : </td>
+                          <td > <Link to={"/detail-pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></td>
+                        </tr>
+                        <tr>
+                          <td>no_hp</td>
+                          <td>:</td>
+                          <td>{tran.no_hp}</td>
+                        </tr>
+                        <tr>
+                          <td>alamat</td>
+                          <td>:</td>
+                          <td>{tran.alamat}</td>
+                        </tr>
+                        <tr>
+                          <td>kompresor</td>
+                          <td>:</td>
+                          <td>{tran.jenis}</td>
+                        </tr>
+                        <tr>
+                          <td>tanggal_sewa</td>
+                          <td>:</td>
+                          <td>{tran.tanggal_sewa}</td>
+                        </tr>
+                        <tr>
+                          <td className="pr-2">rencana lama sewa</td>
+                          <td>:</td>
+                          <td>{tran.lama_sewa} hari</td>
+                        </tr>
+                      </table>
+                      <div className="w-fit m-auto">
+                        <Link to={"/detail-transaksi/" + transaksiKeys[index]} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">selengkapnya</Link>
+                      </div>
                     </div>
                     )
                 }
