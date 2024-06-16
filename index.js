@@ -7,16 +7,16 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import HomePage from './pages/HomePage.js'
-import ListPelanggan from './pages/pelanggan/ListPelanggan.js'
-import ListKompersor from './pages/kompresor/ListKompresor.js'
-import ListTransaksi from './pages/transaksi/ListTransaksi.js'
-import reportWebVitals from './reportWebVitals';
-import DetailPelanggan from './pages/pelanggan/DetailPelanggan.js';
-import DetailKompresor from './pages/kompresor/DetailKompresor.js';
-import DetailTransaksi from './pages/transaksi/DetailTransaksi.js';
-import Navbar from './pages/navbar.js';
-import TambahKompresor from './pages/kompresor/TambahKompresor.js';
+import HomePage from './src/pages/HomePage.js'
+import ListPelanggan from './src/pages/pelanggan/ListPelanggan.js'
+import ListKompersor from './src/pages/kompresor/ListKompresor.js'
+import ListTransaksi from './src/pages/transaksi/ListTransaksi.js'
+import reportWebVitals from './src/reportWebVitals.js';
+import DetailPelanggan from './src/pages/pelanggan/DetailPelanggan.js';
+import DetailKompresor from './src/pages/kompresor/DetailKompresor.js';
+import DetailTransaksi from './src/pages/transaksi/DetailTransaksi.js';
+import Navbar from './src/pages/navbar.js';
+import TambahKompresor from './src/pages/kompresor/TambahKompresor.js';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
