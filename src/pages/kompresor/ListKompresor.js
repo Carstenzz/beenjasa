@@ -127,12 +127,12 @@ export default function ListKompresor() {
                         {kompresor.map((kom)=>{
                             if(!kom.kembali && kom.jenis[0]===e.kategori) 
                                 return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis} className="bg-red-500 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
-                        })}
+                        })} 
                     </div>
                   </div>
               </div>
                 <div className="w-fit m-auto mt-6">
-                    <button className="bg-sky-600 px-5 py-2 rounded-lg text-white font-semibold" onClick={()=>{postKompresor(e.harga, e.kategori, e.top+1)}}>Tambah kompresor pada kategori ini</button>
+                    <button className="bg-sky-600 px-5 py-2 rounded-lg text-white font-semibold" onClick={()=>{postKompresor(e.harga, e.kategori, parseInt(e.top)+1)}}>Tambah kompresor pada kategori ini</button>
                   </div>
               </div>
               )
