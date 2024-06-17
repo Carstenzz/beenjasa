@@ -108,7 +108,7 @@ export default function ListKompresor() {
                     <div className="flex flex-wrap gap-4">
                         {kompresor.map((kom)=>{
                             if(kom.servis && kom.kembali && kom.jenis[0]===e.kategori) 
-                                return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
+                                return <Link to={"/kompresor/"+kom.jenis} key={kom.jenis} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
                         })}
                     </div>
                   </div>
@@ -117,7 +117,7 @@ export default function ListKompresor() {
                     <div className="flex flex-wrap gap-4">
                         {kompresor.map((kom)=>{
                             if(!kom.servis && kom.kembali && kom.jenis[0]===e.kategori) 
-                                return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis} className="bg-amber-500 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
+                                return <Link to={"/kompresor/"+kom.jenis} key={kom.jenis} className="bg-amber-500 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
                         })}
                     </div>
                   </div>
@@ -126,7 +126,7 @@ export default function ListKompresor() {
                     <div className="flex flex-wrap gap-4">
                         {kompresor.map((kom)=>{
                             if(!kom.kembali && kom.jenis[0]===e.kategori) 
-                                return <Link to={"/detail-kompresor/"+kom.jenis} key={kom.jenis} className="bg-red-500 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
+                                return <Link to={"/kompresor/"+kom.jenis} key={kom.jenis} className="bg-red-500 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
                         })} 
                     </div>
                   </div>

@@ -173,14 +173,14 @@ export default function DetailKompresor() {
                                 return(
                                 <div key={tran.kompresor} className="border-2 border-gray-400 m-2 p-2 pb-6 min-w-96 flex flex-col justify-center items-center ">
                                 <div className="flex justify-between font-bold text-xl w-full mb-4">
-                                    <p><Link to={"/detail-pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></p>
-                                    <p><Link to={"/detail-kompresor/" + tran.jenis}> {tran.jenis}</Link></p>
+                                    <p><Link to={"/pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></p>
+                                    <p><Link to={"/kompresor/" + tran.jenis}> {tran.jenis}</Link></p>
                                 </div>
                                 <table className="mb-6">
                                     <tr>
                                     <td>nama penyewa</td>
                                     <td className="pr-2"> : </td>
-                                    <td > <Link to={"/detail-pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></td>
+                                    <td > <Link to={"/pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></td>
                                     </tr>
                                     <tr>
                                     <td>no_hp</td>
@@ -209,7 +209,7 @@ export default function DetailKompresor() {
                                     </tr>
                                 </table>
                                 <div className="w-fit m-auto">
-                                    <Link to={"/detail-transaksi/" + transaksiKeys[index]} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">selengkapnya</Link>
+                                    <Link to={"/transaksi/" + transaksiKeys[index]} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">selengkapnya</Link>
                                 </div>
                                 </div>
                                 )
@@ -221,7 +221,7 @@ export default function DetailKompresor() {
                 <div className="flex gap-4 flex-wrap justify-center mb-20">
                     {temp.map((plg)=>{
                         return(
-                            <Link to={"/detail-pelanggan/" + plg.nama.replace(/\s+/g, '-').toLowerCase()}>
+                            <Link to={"/pelanggan/" + plg.nama.replace(/\s+/g, '-').toLowerCase()}>
                             <div className="border-2 border-gray-400 p-4">
                             <h1 className="font-bold text-xl text-center pb-4">{plg.nama}</h1>
                             <div className="px-2 pb-4">

@@ -16,32 +16,21 @@ import DetailPelanggan from './pages/pelanggan/DetailPelanggan.js';
 import DetailKompresor from './pages/kompresor/DetailKompresor.js';
 import DetailTransaksi from './pages/transaksi/DetailTransaksi.js';
 import Navbar from './pages/navbar.js';
-import TambahKompresor from './pages/kompresor/TambahKompresor.js';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Navbar/>}>
       <Route index element={<HomePage/>}/>
-      <Route path='/pelanggan' element={<ListPelanggan/>}/>
+      <Route path='/pelanggan'>
+        <Route index element={<ListPelanggan/>}/>
+        <Route path=':dtl' element={<DetailPelanggan/>}/>
+      </Route>
       <Route path='/kompresor'>
         <Route index element={<ListKompersor/>}/>
-        <Route path='tambah' element={<TambahKompresor/>}/>
+        <Route path=':dtl' element={<DetailKompresor/>}/>
       </Route>
-      <Route path='/transaksi' element={<ListTransaksi/>}/>
-      <Route path='/detail-pelanggan'>
-        <Route path=':dtl'>
-          <Route index element={<DetailPelanggan/>}/>
-          <Route path='edit' element={<DetailPelanggan/>}/>
-          <Route path='blacklist' element={<DetailPelanggan/>}/>
-        </Route>
-      </Route>
-      <Route path='/detail-kompresor'>
-        <Route path=':dtl'>
-          <Route index element={<DetailKompresor/>}/>
-          <Route path='edit' element={<DetailKompresor/>}/>
-        </Route>
-      </Route>
-      <Route path='/detail-transaksi'>
+      <Route path='/transaksi'>
+        <Route index element={<ListTransaksi/>}/>
         <Route path=':dtl'>
           <Route index element={<DetailTransaksi/>}/>
           <Route path=':action' element={<DetailTransaksi/>}/>

@@ -206,7 +206,7 @@ const print = () => {
                     <img src={pelanggan.ktp} className="h-40 border-2"/>
                 </div>
               </div>
-              <Link to={"/detail-pelanggan/" + transaksi.nama.replace(/\s+/g, '-').toLowerCase()} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">selengkapnya</Link>
+              <Link to={"/pelanggan/" + transaksi.nama.replace(/\s+/g, '-').toLowerCase()} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">selengkapnya</Link>
           </div>
           <div className="flex flex-col gap-10 items-center">
             <h1 className="text-2xl font-bold mt-16 text-center pb-4">Detail Kompresor</h1>
@@ -229,7 +229,7 @@ const print = () => {
                     </tr>
                 </table>
               </div>
-              <Link to={"/detail-kompresor/"+kompresor.jenis} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">selengkapnya</Link>
+              <Link to={"/kompresor/"+kompresor.jenis} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">selengkapnya</Link>
           </div>
         </div>
         <div className="flex flex-col justify-center items-center mt-10">
@@ -245,7 +245,7 @@ const print = () => {
                   <tr>
                     <td>nama penyewa</td>
                     <td> : </td>
-                    <td> <Link to={"/detail-pelanggan/" + transaksi.nama.replace(/\s+/g, '-').toLowerCase()}> {transaksi.nama}</Link></td>
+                    <td> <Link to={"/pelanggan/" + transaksi.nama.replace(/\s+/g, '-').toLowerCase()}> {transaksi.nama}</Link></td>
                   </tr>
                   <tr>
                     <td>no_hp</td>

@@ -67,7 +67,7 @@ export default function ListPelanggan() {
                 pelanggan.map((pel)=>{
                   if(pel.nik == tran.nik){
                     return(
-                      <Link to={"/detail-pelanggan/" + pel.nama.replace(/\s+/g, '-').toLowerCase()}>
+                      <Link to={"/pelanggan/" + pel.nama.replace(/\s+/g, '-').toLowerCase()}>
                       <div className="border-2 border-gray-400 p-4">
                         <h1 className="font-bold text-xl text-center pb-4">{pel.nama}</h1>
                         <div className="px-2 pb-4">
@@ -104,7 +104,7 @@ export default function ListPelanggan() {
             {pelanggan.map((pel)=>{
                 if(pel.blacklist){
                   return(
-                    <Link to={"/detail-pelanggan/" + pel.nama.replace(/\s+/g, '-').toLowerCase()}>
+                    <Link to={"/pelanggan/" + pel.nama.replace(/\s+/g, '-').toLowerCase()}>
                     <div className="border-2 border-gray-400 p-4">
                       <h1 className="font-bold text-xl text-center pb-4">{pel.nama}</h1>
                       <div className="px-2 pb-4">
@@ -135,7 +135,7 @@ export default function ListPelanggan() {
             {pelanggan.map((pel)=>{
         
                   return(
-                    <Link to={"/detail-pelanggan/" + pel.nama.replace(/\s+/g, '-').toLowerCase()}>
+                    <Link to={"/pelanggan/" + pel.nama.replace(/\s+/g, '-').toLowerCase()}>
                     <div className="border-2 border-gray-400 p-4">
                       <h1 className="font-bold text-xl text-center pb-4">{pel.nama}</h1>
                       <div className="px-2 pb-4">
