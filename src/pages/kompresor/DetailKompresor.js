@@ -166,7 +166,7 @@ export default function DetailKompresor() {
                     </div>
                 </div>
                 <div className="mt-16">
-                    <h1 className="text-2xl font-bold mt-16 text-center pb-4">Riwayat transaksi</h1>
+                    <h1 className="text-2xl font-bold mt-16 text-center pb-4">Transaksi terkait</h1>
                     <div className="flex gap-4 flex-wrap justify-center">
                         {transaksi.map((tran, index)=>{
                             if(tran.jenis == kompresor.jenis){

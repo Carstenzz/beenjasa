@@ -60,7 +60,7 @@ export default function ListPelanggan() {
     } else{
         return (
           <>
-            <h1 className="my-6 text-center text-3xl font-bold">PELANGGAN YANG SEDANG MENYEWA</h1>
+            <h1 className="my-6 mt-16 text-center text-3xl font-bold">PELANGGAN YANG SEDANG MENYEWA</h1>
             <div className="flex gap-4 flex-wrap justify-center">
             {transaksi.map((tran)=>{
               return(
@@ -99,7 +99,7 @@ export default function ListPelanggan() {
             </div> 
             {blacklist &&
             <>
-            <h1 className="my-6 text-center text-3xl font-bold">PELANGGAN YANG DIBLACKLIST</h1>
+            <h1 className="my-6 mt-16 text-center text-3xl font-bold">PELANGGAN YANG DIBLACKLIST</h1>
             <div className="flex gap-4 flex-wrap justify-center">
             {pelanggan.map((pel)=>{
                 if(pel.blacklist){
@@ -130,7 +130,7 @@ export default function ListPelanggan() {
             </div> 
             </>
             }
-            <h1 className="my-6 text-center text-3xl font-bold">PELANGGAN LAIN</h1>
+            <h1 className="my-6 mt-16 text-center text-3xl font-bold">PELANGGAN LAIN</h1>
             <div className="flex gap-4 flex-wrap justify-center mb-20">
             {pelanggan.map((pel)=>{
         

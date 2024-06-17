@@ -4,6 +4,7 @@ import app from '../../firebase.js'
 import { getDatabase, ref, get, update } from "firebase/database"
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import kompresorPic from '../../assets/kompresorPic.png'
 // import {db} from "./firebase-config"
 // import {collection, getDocs} from "firebase/firestore"
 
@@ -175,7 +176,7 @@ const print = () => {
     console.log(kompresor)
     return (
       <>
-        <div className="flex justify-center gap-40 mb-20">
+        <div className="flex justify-center gap-40 mb-20 pr-32">
           <div className="flex flex-col gap-10 items-center">
           <h1 className="mt-16 text-2xl font-bold text-center">Detail Pelanggan</h1>
             <div className="font-semibold flex justify-center gap-10">
@@ -208,7 +209,7 @@ const print = () => {
               </div>
               <Link to={"/pelanggan/" + transaksi.nama.replace(/\s+/g, '-').toLowerCase()} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">selengkapnya</Link>
           </div>
-          <div className="flex flex-col gap-10 items-center">
+          <div className="flex flex-col gap-10 items-center justify-between">
             <h1 className="text-2xl font-bold mt-16 text-center pb-4">Detail Kompresor</h1>
             <div className="mt-4 font-semibold flex justify-center gap-20">
                 <table>
@@ -233,14 +234,14 @@ const print = () => {
           </div>
         </div>
         <div className="flex flex-col justify-center items-center mt-10">
-            <h1 className="text-3xl font-bold mb-4">detail Transaksi</h1>
+            <h1 className="text-3xl font-bold mb-4">Nota Transaksi</h1>
             <div ref={componentRef} className=" border-2 border-gray-400" style={{ height: 700, width:500}}>
             <div className="flex justify-between items-center px-4 pt-2">
               <h1 className="text-xl font-bold">Beenjasa</h1>
               <h1>{date}</h1>
             </div>
             <h1 className="text-center font-bold">Nota Sewa Kompresor</h1>
-            <div className="border-2 border-gray-600 mx-10 h-4/5 p-10">
+            <div className="border-2 border-gray-600 mx-10 h-4/5 p-10 relative">
                 <table>
                   <tr>
                     <td>nama penyewa</td>
@@ -301,7 +302,7 @@ const print = () => {
                     </>
                   }
                 </table>
-                
+                <img src={kompresorPic} className="opacity-15 absolute bottom-10 left-1/2 -translate-x-1/2 "/>
             </div>
             {/* { !transaksi.nota_sewa &&
             }

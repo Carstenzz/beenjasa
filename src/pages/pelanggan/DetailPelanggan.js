@@ -27,6 +27,22 @@ export default function DetailPelanggan() {
     useEffect(()=>{
       fetchKompresor()
     },[transaksi, pelanggan])
+
+
+    useEffect(()=>{
+        if(temp.length > 1){
+            let filtered = []
+            temp.forEach((e)=>{
+                let same = false
+                filtered.forEach((filter)=>{
+                    if(e.jenis == filter.jenis) same = true
+                })
+                if(!same) filtered.push(e)
+            })
+            setKompresor(filtered)
+        }
+    },[temp])
+
   
   const fetchPelanggan = async () => {
     const db = getDatabase(app)
@@ -67,12 +83,13 @@ export default function DetailPelanggan() {
             Object.values(snapshot.val()).forEach((kom)=>{
                 transaksi.forEach(e=>{
                     // console.log(e.nama + " " + pelanggan.nama)
-                    console.log(e.jenis + " " + kom.jenis)
+                    // console.log(e.jenis + " " + kom.jenis)
                     if(e.nik == pelanggan.nik && e.jenis == kom.jenis){
                         // console.log(kom)
                         setTemp((prev)=>[...prev, kom])
                     }
                 })
+
                 // if(kom.jenis == param){
                 //     // setSelectedType("kompresor")
                 //     setKompresor(kom)
@@ -241,7 +258,7 @@ export default function DetailPelanggan() {
                 </div>
             <h1 className="text-2xl font-bold mt-16 text-center pb-4">Kompresor yang pernah atau sedang disewa</h1>
             <div className="flex flex-wrap gap-4 justify-center mb-20">
-                {temp.map((kom)=>{
+                {kompresor.map((kom)=>{
                     if(kom.servis && kom.kembali) 
                         return <Link to={"/kompresor/"+kom.jenis} key={kom.jenis} className="bg-green-600 px-5 py-2 rounded-lg text-white font-semibold">{kom.jenis}</Link>
                 })}
