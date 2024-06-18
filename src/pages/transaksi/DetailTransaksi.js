@@ -235,13 +235,13 @@ const print = () => {
         </div>
         <div className="flex flex-col justify-center items-center mt-10">
             <h1 className="text-3xl font-bold mb-4">Nota Transaksi</h1>
-            <div ref={componentRef} className=" border-2 border-gray-400" style={{ height: 700, width:500}}>
+            <div ref={componentRef} className=" border-2 border-gray-400 bg-sky-50" style={{ height: 700, width:500}}>
             <div className="flex justify-between items-center px-4 pt-2">
               <h1 className="text-xl font-bold">Beenjasa</h1>
               <h1>{date}</h1>
             </div>
             <h1 className="text-center font-bold">Nota Sewa Kompresor</h1>
-            <div className="border-2 border-gray-600 mx-10 h-4/5 p-10 relative">
+            <div className="border-2 border-gray-600 mx-10 h-4/5 p-10 relative bg-white">
                 <table>
                   <tr>
                     <td>nama penyewa</td>
