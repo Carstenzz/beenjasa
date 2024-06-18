@@ -60,15 +60,16 @@ export default function ListPelanggan() {
     } else{
         return (
           <>
-            <h1 className="my-6 mt-16 text-center text-3xl font-bold">PELANGGAN YANG SEDANG MENYEWA</h1>
-            <div className="flex gap-4 flex-wrap justify-center">
+          <div className="bg-sky-100 mx-20 p-4 rounded-xl mb-10">
+            <h1 className="my-6 mt-4 text-center text-3xl font-bold">PELANGGAN YANG SEDANG MENYEWA</h1>
+            <div className="flex gap-4 flex-wrap justify-center mb-6">
             {transaksi.map((tran)=>{
               return(
                 pelanggan.map((pel)=>{
                   if(pel.nik == tran.nik){
                     return(
                       <Link to={"/pelanggan/" + pel.nama.replace(/\s+/g, '-').toLowerCase()}>
-                      <div className="border-2 border-gray-400 p-4">
+                      <div className="border-2 border-gray-400 p-4 bg-white">
                         <h1 className="font-bold text-xl text-center pb-4">{pel.nama}</h1>
                         <div className="px-2 pb-4">
                           <table>
@@ -97,15 +98,16 @@ export default function ListPelanggan() {
               )
             })}
             </div> 
+            </div>
             {blacklist &&
-            <>
-            <h1 className="my-6 mt-16 text-center text-3xl font-bold">PELANGGAN YANG DIBLACKLIST</h1>
-            <div className="flex gap-4 flex-wrap justify-center">
+            <div className="bg-sky-50 mx-20 p-4 rounded-xl mb-10">
+            <h1 className="my-6 mt-4 text-center text-3xl font-bold">PELANGGAN YANG DIBLACKLIST</h1>
+            <div className="flex gap-4 flex-wrap justify-center mb-6">
             {pelanggan.map((pel)=>{
                 if(pel.blacklist){
                   return(
                     <Link to={"/pelanggan/" + pel.nama.replace(/\s+/g, '-').toLowerCase()}>
-                    <div className="border-2 border-gray-400 p-4">
+                    <div className="border-2 border-gray-400 p-4 bg-white">
                       <h1 className="font-bold text-xl text-center pb-4">{pel.nama}</h1>
                       <div className="px-2 pb-4">
                         <table>
@@ -128,15 +130,16 @@ export default function ListPelanggan() {
               })
             }
             </div> 
-            </>
+            </div>
             }
-            <h1 className="my-6 mt-16 text-center text-3xl font-bold">PELANGGAN LAIN</h1>
-            <div className="flex gap-4 flex-wrap justify-center mb-20">
+            <div className="bg-sky-50 mx-20 p-4 rounded-xl mb-20">
+            <h1 className="my-6 mt-4 text-center text-3xl font-bold">PELANGGAN LAIN</h1>
+            <div className="flex gap-4 flex-wrap justify-center mb-6">
             {pelanggan.map((pel)=>{
         
                   return(
                     <Link to={"/pelanggan/" + pel.nama.replace(/\s+/g, '-').toLowerCase()}>
-                    <div className="border-2 border-gray-400 p-4">
+                    <div className="border-2 border-gray-400 p-4 bg-white">
                       <h1 className="font-bold text-xl text-center pb-4">{pel.nama}</h1>
                       <div className="px-2 pb-4">
                         <table>
@@ -157,6 +160,7 @@ export default function ListPelanggan() {
                   )
               })
             }
+            </div> 
             </div> 
           </>
         )

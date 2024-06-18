@@ -139,8 +139,9 @@ export default function DetailKompresor() {
     return(
         <>
             <div className="mx-20">
-                <h1 className="text-2xl font-bold mt-16 text-center pb-4">Detail Kompresor</h1>
-                <div className="mt-4 font-semibold flex justify-center gap-20">
+            <div className="bg-sky-50 p-4 rounded-xl mt-12">
+                <h1 className="text-2xl font-bold mt-4 text-center pb-4">Detail Kompresor</h1>
+                <div className="mt-4 font-semibold flex justify-center gap-20 mb-6">
                     <table>
                         <tr>
                             <td>Jenis </td>
@@ -165,8 +166,10 @@ export default function DetailKompresor() {
                         <button className="bg-yellow-500 text-white p-2 px-4 rounded-xl" onClick={()=>{servis()}}>Ubah status servis</button>
                     </div>
                 </div>
+                </div>
+                
                 <div className="mt-16">
-                    <h1 className="text-2xl font-bold mt-16 text-center pb-4">Transaksi terkait</h1>
+                    <h1 className="text-2xl font-bold mt-12 text-center pb-4">Transaksi terkait</h1>
                     <div className="flex gap-4 flex-wrap justify-center">
                         {transaksi.map((tran, index)=>{
                             if(tran.jenis == kompresor.jenis){

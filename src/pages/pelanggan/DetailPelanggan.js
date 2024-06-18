@@ -169,8 +169,9 @@ export default function DetailPelanggan() {
     return (
       <>
         <div className="mx-20">
-            <h1 className="text-2xl font-bold mt-16 text-center pb-4">Detail Pelanggan</h1>
-            <div className="mt-4 font-semibold flex justify-center gap-20">
+        <div className="bg-sky-50 p-4 rounded-xl mt-12">
+            <h1 className="text-2xl font-bold mt-4 text-center pb-4">Detail Pelanggan</h1>
+            <div className="mt-4 font-semibold flex justify-center gap-20 mb-6">
                 <table>
                     <tr>
                         <td>Nama </td>
@@ -204,6 +205,7 @@ export default function DetailPelanggan() {
                 </p>
                 <button className="bg-yellow-500 text-white p-2 px-4 rounded-xl" onClick={()=>{blacklist()}}>Ubah status blacklist</button>
             </div>
+        </div>
             <div className="mt-16">
                     <h1 className="text-2xl font-bold mt-16 text-center pb-4">Riwayat transaksi</h1>
                     <div className="flex gap-4 flex-wrap justify-center">

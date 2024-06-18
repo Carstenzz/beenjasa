@@ -54,13 +54,13 @@ export default function ListTransaksi() {
               </div>
             </div>
 
-              
-            <h1 className="text-2xl font-bold mt-16 text-center pb-4">Transaksi yang sedang berlangsung</h1>
-            <div className="flex gap-4 flex-wrap justify-center">
+            <div className="bg-sky-100 p-4 rounded-xl mt-12">
+            <h1 className="text-2xl font-bold mt-4 text-center pb-4">Transaksi yang sedang berlangsung</h1>
+            <div className="flex gap-4 flex-wrap justify-center mb-6">
             {transaksi.map((tran, index)=>{
                 if(!tran.kembali && (nama === "" || nama.toLowerCase() === tran.nama.toLowerCase()) && (jenis === "" || jenis.toLowerCase() === tran.jenis.toLowerCase())){
                     return (
-                    <div key={tran.kompresor} className="border-2 border-gray-400 m-2 p-2 pb-6 min-w-96 flex flex-col justify-center items-center ">
+                    <div key={tran.kompresor} className="border-2 border-gray-400 m-2 p-2 pb-6 min-w-96 flex flex-col justify-center items-center bg-white">
                       <div className="flex justify-between font-bold text-xl w-full mb-4">
                         <p><Link to={"/pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></p>
                         <p><Link to={"/kompresor/" + tran.jenis}> {tran.jenis}</Link></p>
@@ -105,13 +105,15 @@ export default function ListTransaksi() {
                 }
             })}
             </div>       
+            </div>       
 
-            <h1 className="text-2xl font-bold mt-16 text-center pb-4">Transaksi yang belum dibayar</h1>
-            <div className="flex gap-4 flex-wrap justify-center">
+            <div className="bg-sky-50 p-4 rounded-xl mt-12">
+            <h1 className="text-2xl font-bold mt-4 text-center pb-4">Transaksi yang belum dibayar</h1>
+            <div className="flex gap-4 flex-wrap justify-center mb-6">
             {transaksi.map((tran, index)=>{
                 if(!tran.lunas && (nama === "" || nama.toLowerCase() === tran.nama.toLowerCase()) && (jenis === "" || jenis.toLowerCase() === tran.jenis.toLowerCase())){
                     return (
-                    <div key={tran.kompresor} className="border-2 border-gray-400 m-2 p-2 pb-6 min-w-96 flex flex-col justify-center items-center ">
+                    <div key={tran.kompresor} className="border-2 border-gray-400 m-2 p-2 pb-6 min-w-96 flex flex-col justify-center items-center bg-white">
                       <div className="flex justify-between font-bold text-xl w-full mb-4">
                         <p><Link to={"/pelanggan/" + tran.nama.replace(/\s+/g, '-').toLowerCase()}> {tran.nama}</Link></p>
                         <p><Link to={"/kompresor/" + tran.jenis}> {tran.jenis}</Link></p>
@@ -160,6 +162,7 @@ export default function ListTransaksi() {
                     )
                 }
             })}
+            </div>   
             </div>   
 
             <h1 className="text-2xl font-bold mt-16 text-center pb-4">Transaksi lainnya</h1>
